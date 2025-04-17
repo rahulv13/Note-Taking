@@ -162,7 +162,7 @@ const handleClearSearch = () => {
         <div className='grid grid-cols-3 gap-4 mt-8'>
         {allNotes.map((item, index) => (
           <NoteCard  
-            key={item._id}
+            key={item._id||index}
             title={item.title}
             date={item.createdOn}
             content={item.content} 
@@ -170,10 +170,10 @@ const handleClearSearch = () => {
             isPinned={item.isPinned}
             onEdit={() => handleEdit(item)}
             onDelete={()=>deleteNote(item)}
-            onPinNote={()=>updateIsPinned(item)}
-          />
-        ) : null
-                     )}
+            onPinNote={() => updateIsPinned(item)}
+        />
+      ) : null
+    )}
       </div>
     ) : (
       <EmptyCard 
