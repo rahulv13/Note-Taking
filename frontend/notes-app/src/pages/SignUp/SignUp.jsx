@@ -37,7 +37,7 @@ const SignUp = () => {
 
       //SignUp API call
       try {
-    const response = await axiosInstance.create("create-account", {
+    const response = await axiosInstance.post("https://note-taking-backend-tv5v.onrender.com/create-account", {
       fullName: name,
       email: email,
       password: password,
