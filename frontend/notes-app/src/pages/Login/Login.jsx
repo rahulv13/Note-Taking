@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from "../../components/Navbar/Navbar"
 import { Link, useNavigate } from "react-router-dom"
-import PasswordInput from '../../components/Navbar/Input/Passwordinput'
+import PasswordInput from '../../components/Navbar/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from '../../utils/axiosInstance'
 
