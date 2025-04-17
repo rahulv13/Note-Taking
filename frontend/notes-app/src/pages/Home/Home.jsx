@@ -158,21 +158,21 @@ const handleClearSearch = () => {
     />
 
     <div className='container mx-auto'>
-      {allNotes.length > 0 ? (
-        <div className='grid grid-cols-3 gap-4 mt-8'>
-        {allNotes.map((item) => (
-          <NoteCard  
-  key={item._id}
-  title={item.title || "Untitled"}
-  date={item.createdOn || ""}
-  content={item.content || ""}
-  tags={item.tags || []}
-  isPinned={item.isPinned || false}
-  onEdit={() => handleEdit(item)}
-  onDelete={() => deleteNote(item)}
-  onPinNote={() => updateIsPinned(item)}
-/>
-        ))}
+      {allNotes?.length > 0 && allNotes.map((item, index) => (
+  item && (
+    <NoteCard  
+      key={item._id || index}
+      title={item.title}
+      date={item.createdOn}
+      content={item.content}
+      tags={item.tags || []}
+      isPinned={item.isPinned}
+      onEdit={() => handleEdit(item)}
+      onDelete={() => deleteNote(item)}
+      onPinNote={() => updateIsPinned(item)}
+    />
+  )
+))}
       </div>
     ) : (
       <EmptyCard 
