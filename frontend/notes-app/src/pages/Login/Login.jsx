@@ -30,7 +30,7 @@ const handleLogin = async (e) => {
 
   //Login API call
   try {
-    const response = await axiosInstance.post("/login", {
+    const response = await axiosInstance.post("https://note-taking-backend-tv5v.onrender.com/login", {
       email: email,
       password: password,
     });
