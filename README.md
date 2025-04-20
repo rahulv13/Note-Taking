@@ -1,4 +1,5 @@
 📝 MERN Note-Taking App
+
 A simple and clean Note-Taking Web Application built with the MERN Stack (MongoDB, Express, React, Node.js). This app allows users to create, edit, and delete notes with a responsive and user-friendly interface.
 
 🚀 Features
