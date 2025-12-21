@@ -84,9 +84,9 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
     };
 
     return (
-        <div className="relative">
+        <div className="relative dark:bg-slate-900">
             <button
-            className="w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-50"
+            className="w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-50 dark:hover:bg-slate-800"
             onClick={onClose}
             >
                 <MdClose className="text-xl text-slate-400" />
@@ -94,10 +94,10 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
 
 
             <div className="flex flex-col gap-2 ">
-                <label className="input-label">TITLE</label>
+                <label className="input-label dark:text-slate-400">TITLE</label>
                 <input 
                   type="text"
-                  className="text-2xl text-slate-950 outline-none"
+                  className="text-2xl text-slate-950 dark:text-white dark:bg-slate-900 outline-none"
                   placeholder="Go to Gym At 5"
                   value={title}
                   onChange={({ target }) => setTitle(target.value)}
@@ -105,10 +105,10 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
             </div>
 
             <div className="flex flex-col gap-2 mt-4">
-                <label className="input-label">CONTENT</label>
+                <label className="input-label dark:text-slate-400">CONTENT</label>
                 <textarea
                 type="text"
-                className="text-sm text-slate-950 outline-none bg-slate-50 p-2 rounded"
+                className="text-sm text-slate-950 dark:text-white outline-none bg-slate-50 dark:bg-slate-800 p-2 rounded"
                 placeholder="Content"
                 rows={10}
                 value={content}
