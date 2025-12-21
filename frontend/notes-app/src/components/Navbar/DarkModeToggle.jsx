@@ -8,18 +8,23 @@ const DarkModeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 transition-colors duration-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+      className={`w-12 h-12 flex items-center justify-center rounded-full transition-all duration-500 ease-in-out shadow-lg ${
+        theme === 'dark' ? 'bg-white text-orange-400' : 'bg-slate-900 text-white'
+      }`}
       aria-label="Toggle Dark Mode"
     >
-      <div className="relative w-5 h-5">
+      <div className="relative w-6 h-6 overflow-hidden">
+        {/* Sun Icon (Visible in Dark Mode) */}
         <BsSunFill
-          className={`absolute inset-0 text-xl text-orange-400 transition-all duration-500 transform ${
-            theme === 'dark' ? 'rotate-90 opacity-0 scale-50' : 'rotate-0 opacity-100 scale-100'
+          className={`absolute inset-0 text-xl transition-all duration-500 transform ${
+            theme === 'dark' ? 'translate-y-0 opacity-100 rotate-0' : 'translate-y-10 opacity-0 rotate-90'
           }`}
         />
+
+        {/* Moon Icon (Visible in Light Mode) */}
         <BsMoonStarsFill
-          className={`absolute inset-0 text-lg text-blue-500 transition-all duration-500 transform ${
-            theme === 'dark' ? 'rotate-0 opacity-100 scale-100' : '-rotate-90 opacity-0 scale-50'
+          className={`absolute inset-0 text-lg transition-all duration-500 transform ${
+            theme === 'dark' ? '-translate-y-10 opacity-0 -rotate-90' : 'translate-y-0 opacity-100 rotate-0'
           }`}
         />
       </div>
