@@ -3,9 +3,7 @@ require("dotenv").config();
 const config = require("./config.json");
 const mongoose = require("mongoose");
 
-mongoose.connect(config.connectionString)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Could not connect to MongoDB:", err));
+mongoose.connect(config.connectionString);
 
 const User = require("./models/user.model");
 const Note = require("./models/note.model");
@@ -60,41 +58,34 @@ app.post("/create-account", async (req, res) => {
         .json({ error: true, message: "Password is required" });
     }
 
-    try {
-        const isUser = await User.findOne({ email: email });
+    const isUser = await User.findOne({ email: email });
 
-        if (isUser) {
-            return res.json({
-                error: true,
-                message: "User already exist",
-            });
-        }
-
-        const user = new User({
-            fullName,
-            email,
-            password,
-        });
-
-        await user.save();
-
-        const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "36000m",
-        });
-
+    if (isUser) {
         return res.json({
-            error: false,
-            user,
-            accessToken,
-            message: "Registration Successful",
-        });
-    } catch (error) {
-        console.error("Registration error:", error);
-        return res.status(500).json({
             error: true,
-            message: "Internal Server Error",
+            message: "User already exist",
         });
     }
+
+    const user = new User({
+        fullName,
+        email,
+        password,
+    });
+
+    await user.save();
+
+    const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "36000m",
+    });
+
+    return res.json({
+        error: false,
+        user,
+        accessToken,
+        message: "Registration Successful",
+    });
+
 });
 
 app.post("/login", async (req, res ) => {
@@ -114,38 +105,31 @@ app.post("/login", async (req, res ) => {
         return res.status(400).json({ message: "Password is required" })
     }
 
-    try {
-        const userInfo = await User.findOne({ email: email });
+    const userInfo = await User.findOne({ email: email });
 
-        if (!userInfo) {
-            return res.status(400).json({ message: "User not found" });
-        }
+    if (!userInfo) {
+        return res.status(400).json({ message: "User not found" });
+    }
 
-        if (userInfo.email == email && userInfo.password == password) {
-            const user = { user: userInfo };
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: "36000m"
-            })
+    if (userInfo.email == email && userInfo.password == password) {
+        const user = { user: userInfo };
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "36000m"
+        })
 
-            return res.json({
-                error: false,
-                message: "Login Successful",
-                email,
-                accessToken,
-            })
-        } else {
-            return res.status(400).json({
-                error: true,
-                message: "Invalid Credentials",
-            });
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        return res.status(500).json({
+        return res.json({
+            error: false,
+            message: "Login Successful",
+            email,
+            accessToken,
+        })
+    } else {
+        return res.status(400).json({
             error: true,
-            message: "Internal Server Error",
+            message: "Invalid Credentials",
         });
     }
+
 });
 
 // Get User
