@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TagInput from "../../components/Navbar/Input/TagInput";
-import ChecklistInput from "../../components/Navbar/Input/ChecklistInput";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axiosInstance";
 
@@ -8,19 +7,8 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
     const [title, setTitle] = useState(noteData?.title || "");
     const [content, setContent] = useState(noteData?.content || "");
     const [tags, setTags] = useState(noteData?.tags || []);
-    const [isTodo, setIsTodo] = useState(noteData?.isTodo || type === 'checklist');
-    const [checklist, setChecklist] = useState(noteData?.checklist || []);
-
 
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        setTitle(noteData?.title || "");
-        setContent(noteData?.content || "");
-        setTags(noteData?.tags || []);
-        setIsTodo(noteData?.isTodo || type === 'checklist');
-        setChecklist(noteData?.checklist || []);
-    }, [noteData, type]);
 
     // Add Note
     const addNewNote = async () => {
@@ -29,8 +17,6 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
                 title,
                 content,
                 tags,
-                isTodo,
-                checklist,
             });
 
             if (response.data && response.data.note) {
@@ -58,8 +44,6 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
                 title,
                 content,
                 tags,
-                isTodo,
-                checklist,
             });
 
             if (response.data && response.data.note) {
@@ -84,13 +68,8 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
             return;
         }
 
-        if (!content && !isTodo) {
+        if (!content) {
             setError("Please enter the content");
-            return;
-        }
-
-        if (isTodo && checklist.length === 0) {
-            setError("Please add at least one item to the checklist");
             return;
         }
 
@@ -125,20 +104,15 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showToastMessage }
             </div>
 
             <div className="flex flex-col gap-2 mt-4">
-                <label className="input-label dark:text-slate-400">{isTodo ? "CHECKLIST" : "CONTENT"}</label>
-
-                {isTodo ? (
-                    <ChecklistInput checklist={checklist} setChecklist={setChecklist} />
-                ) : (
-                    <textarea
-                        type="text"
-                        className="text-sm text-slate-950 dark:text-white outline-none bg-slate-50 dark:bg-slate-800 p-2 rounded"
-                        placeholder="Content"
-                        rows={10}
-                        value={content}
-                        onChange={({ target }) => setContent(target.value)}
-                    />
-                )}
+                <label className="input-label dark:text-slate-400">CONTENT</label>
+                <textarea
+                    type="text"
+                    className="text-sm text-slate-950 dark:text-white outline-none bg-slate-50 dark:bg-slate-800 p-2 rounded"
+                    placeholder="Content"
+                    rows={10}
+                    value={content}
+                    onChange={({ target }) => setContent(target.value)}
+                />
             </div>
 
             <div className="mt-3">
