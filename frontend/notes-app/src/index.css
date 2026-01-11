@@ -11,7 +11,7 @@
   }
 
   body {
-    @apply bg-[#fdfeff] dark:bg-slate-900 dark:text-white transition-colors duration-300;
+    background-color: #fdfeff;
     overflow: hidden;
     overflow-y: auto;
   }
@@ -20,7 +20,7 @@
 @layer components {
 
   .input-box {
-    @apply w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none dark:border-slate-700 dark:text-white dark:placeholder-slate-400;
+    @apply w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none;
   }
 
   .btn-primary {
