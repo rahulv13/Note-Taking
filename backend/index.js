@@ -163,14 +163,14 @@ app.post("/add-note", authenticateToken, async (req, res) => {
         return res.status(400).json({ error: true, message: "Request body is missing" });
     }
     
-    const { title, content, tags } = req.body;
+    const { title, content, tags, isTodo, checklist } = req.body;
     const { user } = req.user;
 
     if (!title){
         return res.status(400).json({ error: true, message: "Title is required" });
     }
 
-    if (!content) {
+    if (!content && !isTodo) {
         return res
           .status(400)
           .json({ error: true, message: "Content is required" });
@@ -182,6 +182,8 @@ app.post("/add-note", authenticateToken, async (req, res) => {
             content,
             tags: tags || [],
             userId: user._id,
+            isTodo,
+            checklist
         });
 
         await note.save();
@@ -206,10 +208,10 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
     }
 
     const noteId = req.params.noteId;
-    const { title, content, tags, isPinned } = req.body;
+    const { title, content, tags, isPinned, isTodo, checklist } = req.body;
     const { user } = req.user;
 
-    if(!title && !content && !tags) {
+    if(!title && !content && !tags && !checklist) {
         return res
           .status(400)
           .json({error: true, message: "No changes provided" });
@@ -225,7 +227,9 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
         if(title) note.title = title;
         if (content) note.content = content;
         if (tags) note.tags = tags;
-        if (isPinned) note.isPinned = isPinned;
+        if (isPinned !== undefined) note.isPinned = isPinned;
+        if (isTodo !== undefined) note.isTodo = isTodo;
+        if (checklist) note.checklist = checklist;
 
         await note.save();
 
