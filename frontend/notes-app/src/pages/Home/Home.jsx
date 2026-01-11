@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdPlaylistAdd, MdDescription } from "react-icons/md";
 
 import Navbar from "../../components/Navbar/Navbar";
 import NoteCard from "../../components/Navbar/Cards/NoteCard";
@@ -32,7 +32,13 @@ const Home = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navigate = useNavigate();
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const ShowToastMessage = (message, type) => {
     setShowToast({
@@ -157,6 +163,8 @@ const Home = () => {
                 content={item.content}
                 tags={item.tags}
                 isPinned={item.isPinned}
+                isTodo={item.isTodo}
+                checklist={item.checklist}
                 onEdit={() =>
                   setOpenAddEditModal({
                     isShown: true,
@@ -181,15 +189,46 @@ const Home = () => {
         )}
       </div>
 
-      {/* Add Button */}
-      <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 fixed right-10 bottom-10 z-50 shadow-lg"
-        onClick={() =>
-          setOpenAddEditModal({ isShown: true, type: "add", data: null })
-        }
-      >
-        <MdAdd className="text-[32px] text-white" />
-      </button>
+      <div className="fixed right-10 bottom-10 z-50 flex flex-col items-end gap-3">
+          {/* Sub Buttons */}
+          <div className={`flex flex-col gap-3 items-end mb-2 transition-all duration-300 ${isMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-4'}`}>
+             <button
+                className="flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 rounded-lg shadow-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                onClick={() => {
+                  setOpenAddEditModal({ isShown: true, type: "checklist", data: null });
+                  setIsMenuOpen(false);
+                }}
+                title="Add Checklist"
+             >
+                 <span className="text-sm font-medium">Checklist</span>
+                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-slate-700">
+                     <MdPlaylistAdd className="text-xl text-primary" />
+                 </div>
+             </button>
+
+             <button
+                 className="flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 rounded-lg shadow-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                 onClick={() => {
+                   setOpenAddEditModal({ isShown: true, type: "add", data: null });
+                   setIsMenuOpen(false);
+                 }}
+                 title="Add Text Note"
+             >
+                <span className="text-sm font-medium">Note</span>
+                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-slate-700">
+                     <MdDescription className="text-xl text-primary" />
+                </div>
+             </button>
+          </div>
+
+          {/* Main FAB */}
+          <button
+            className={`w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 shadow-lg transition-transform duration-300 ${isMenuOpen ? 'rotate-45' : ''}`}
+            onClick={toggleMenu}
+          >
+            <MdAdd className="text-[32px] text-white" />
+          </button>
+      </div>
 
       {/* Modal */}
       <Modal
